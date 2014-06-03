@@ -1,7 +1,7 @@
 # migsql 
 migsql is a simple, lightweight up/down sql migration manager.
 Features:
-  - Up and down migration to targetted versions
+  - Up and down migration to targeted versions
   - Multiple different database configurations in the same project
 
 ## Important
@@ -21,7 +21,7 @@ From there, create an initial config with:
 ```
 migsql init
 ```
-This will create a ./db/config.yml - you need to edit this with your database paramters
+This will create a ./db/config.yml - you need to edit this with your database parameters
 To create a migration do:
 ```
 migsql create-migration <friendly name>
@@ -34,7 +34,7 @@ or
 migsql migrate to <friendlyname> (this will migrate the database in your config, to the specified migration)
 ```
 ## Multiple Databases
-If your config.yml contains multiple databases, you will need to specify which db you're targetting, like so:
+If your config.yml contains multiple databases, you will need to specify which db you're targeting, like so:
 ```
 migsql create-migration <friendly name> <dbname>
 migsql migrate <dbname>
@@ -44,6 +44,8 @@ migsql migrate <dbname> to <friendlyname>
 ## Contributing
 This project has been developed using Test Driven Development, with rspec.
 Everything is configured to run automatically with Guard.
+
+You'll need to configure spec/spec_helper.rb with the details of a local SQL server, as some of the tests assert on actual sql manipulations.
 
 Further to this, the branching strategy is gitflow (https://github.com/nvie/gitflow), so please ensure you do your work in feature branches first.
 
@@ -58,8 +60,9 @@ In summary:
   - Submit a pull request to me
 
 ## Release History
+  - 1.0.2 Small bug fixes
   - 1.0.1 Small bug fixes
-  - 1.0.0 Intial Dev Release
+  - 1.0.0 Initial Dev Release
 
 ## License
 Copyright (c) 2014 Karl Stoney  
