@@ -1,14 +1,14 @@
 # migsql 
 migsql is a simple, lightweight up/down sql migration manager.
 Features:
- - Up and down migration to targetted versions
- - Multiple different database configurations in the same project
+  - Up and down migration to targetted versions
+  - Multiple different database configurations in the same project
 
 ## Important
 NOTE: Still under development, in need of a nice 'Green Refactor'
 Still to be done:
- - Configuration file to override defaults (such as ./db location)
- - Some not-happy-path tests + fixes
+  - Configuration file to override defaults (such as ./db location)
+  - Some not-happy-path tests + fixes
 
 ## Background
 I wanted the development team, and CI environment to be able to point to a single point, and that single point would serve up internal modules, as well as traversing external registries if required via the relevant proxy and returning the result, and caching those results where possible.
@@ -58,6 +58,7 @@ In summary:
   - Submit a pull request to me
 
 ## Release History
+  - 1.0.1 Small bug fixes
   - 1.0.0 Intial Dev Release
 
 ## License
