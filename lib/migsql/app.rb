@@ -40,12 +40,14 @@ class MigSql
   end
 
   def handle_migrate(argv)
-    migration_server = get_migration_server(argv[1])
-    if argv[2] == 'to' 
-      migration_target = argv[3]
-    else
+    if argv[1] == 'to' 
+      migration_server = @migration.get_first_server_name
       migration_target = argv[2]
+    else
+      migration_server = get_migration_server(argv[1])
+      migration_target = argv[3]
     end
+    o_target = migration_target
     if !migration_server.nil? 
       if migration_target.nil? 
         migration_target = @migration.get_latest_migration(migration_server)
@@ -58,6 +60,8 @@ class MigSql
         if !plan.nil?
           @migration.apply_migration_plan(migration_server, plan, migration_target)
         end
+      else
+        puts "Error:  No migration found with name: #{o_target}".red
       end
     end
   end

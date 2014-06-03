@@ -110,8 +110,6 @@ class Migration
     migration = Dir["#{server_root}/*#{name}_up.sql"][0]
     if !migration.nil?
       migration = /([0-9]+_.*)(_up|_down)\.sql/.match(migration).captures[0]
-    else
-      puts "Error:  No migration found with name: #{name}".red
     end
     return migration
   end

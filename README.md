@@ -1,8 +1,14 @@
 # migsql 
 migsql is a simple, lightweight up/down sql migration manager.
+Features:
+ - Up and down migration to targetted versions
+ - Multiple different database configurations in the same project
 
 ## Important
 NOTE: Still under development, in need of a nice 'Green Refactor'
+Still to be done:
+ - Configuration file to override defaults (such as ./db location)
+ - Some not-happy-path tests + fixes
 
 ## Background
 I wanted the development team, and CI environment to be able to point to a single point, and that single point would serve up internal modules, as well as traversing external registries if required via the relevant proxy and returning the result, and caching those results where possible.
@@ -25,14 +31,14 @@ To execute a migration do:
 ```
 migsql migrate (this will migrate the database in your config, to the latest available migration)
 or
-migsql migrate to <timestamp_friendlyname> (this will migrate the database in your config, to the specified migration)
+migsql migrate to <friendlyname> (this will migrate the database in your config, to the specified migration)
 ```
 ## Multiple Databases
 If your config.yml contains multiple databases, you will need to specify which db you're targetting, like so:
 ```
 migsql create-migration <friendly name> <dbname>
 migsql migrate <dbname>
-migsql migrate <dbname> to <timestamp_friendlyname>
+migsql migrate <dbname> to <friendlyname>
 ```
 
 ## Contributing
