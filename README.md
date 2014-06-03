@@ -13,6 +13,11 @@ Still to be done:
 ## Background
 I wanted the development team, and CI environment to be able to point to a single point, and that single point would serve up internal modules, as well as traversing external registries if required via the relevant proxy and returning the result, and caching those results where possible.
 
+## Requirements
+You'll need the freedts package + development libraries, so (depending on your distro):
+  - yum install freedts
+  - yum install freedts-devel
+
 ## Getting Started
 ```
 gem install migsql
@@ -60,6 +65,7 @@ In summary:
   - Submit a pull request to me
 
 ## Release History
+  - 1.0.3 Readme updates
   - 1.0.2 Small bug fixes
   - 1.0.1 Small bug fixes
   - 1.0.0 Initial Dev Release
