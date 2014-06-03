@@ -11,14 +11,16 @@ files.push(Dir.glob("sql/*"))
 
 spec = Gem::Specification.new do |s|
   s.name         = 'migsql'
+  s.homepage     = %q{https://github.com/Stono/migsql}
   s.version      = get_version_number()
   s.date         = Time.now.strftime("%Y-%m-%d")
-  s.summary      = "MSSQL Database Migrations"
-  s.description  = "Simple lightweight up/down MSSQL migrations"
+  s.summary      = %q{Simple lightweight up/down MSSQL migrations} 
+  s.description  = %q{Simple lightweight up/down MSSQL migrations}
   s.authors      = ["Karl Stoney"]
-  s.email        = 'karl@jambr.co.uk'
+  s.email        = %q{karl@jambr.co.uk}
   s.files        = files
   s.require_path = 'lib'
+  s.license      = 'MIT'
   s.executables  = %w(migsql)
   s.add_runtime_dependency 'tiny_tds'
   s.add_runtime_dependency 'colorize'
