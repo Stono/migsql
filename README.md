@@ -18,9 +18,11 @@ Still to be done:
   - Some sad-path tests + fixes
 
 ## Requirements
-You'll need the freedts package + development libraries, so (depending on your distro):
+Linux: You'll need the freedts package + development libraries, so (depending on your distro):
   - yum install freedts
   - yum install freedts-devel
+
+Windows: Nothing to do, tiny_tds is precompiled.
 
 ## Getting Started
 ```
