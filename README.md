@@ -1,5 +1,6 @@
 # migsql 
 migsql is a simple, lightweight up/down sql migration manager.
+
 Features:
   - Store migrations with unix time stamps, to ensure they're applied sequentially, even if multiple people are working on the same project.
   - Enable both up and down migrations.
@@ -10,6 +11,7 @@ Features:
 
 ## Outstanding Work
 NOTE: migsql is still under development, in need of a nice 'Green Refactor'.
+
 Still to be done:
   - Configuration file to override defaults (such as ./db location)
   - Apply migrations in a transactional manner, rolling back all migrations part of that batch on failure
@@ -30,16 +32,20 @@ From there, create an initial config with:
 migsql init
 ```
 This will create a ./db/config.yml - you need to edit this with your database parameters
+
 To create a migration do:
 ```
 migsql create-migration <friendly name>
 ```
 You'll then get up/down scripts for this migration created.  Simply stick your SQL in them.
-To execute a migration do:
+
+To execute a migration to the most recent one available:
 ```
-migsql migrate (this will migrate the database in your config, to the latest available migration)
-or
-migsql migrate to <friendlyname> (this will migrate the database in your config, to the specified migration)
+migsql migrate
+```
+Or to migrate to a specific version (up, or down):
+```
+migsql migrate to <friendlyname>
 ```
 ## Multiple Databases
 If your config.yml contains multiple databases, you will need to specify which db you're targeting, like so:
