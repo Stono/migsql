@@ -7,7 +7,7 @@ Features:
   - Store the "state" of the database (ie its current migration) in a migration table on the server itself.
   - Support multiple database confgurations per project.
   - Be a globally accessible binary executable, installed via gem for ease of use.
-  - Currently only supports linux due to the freetds requirement.
+  - Supports both linux and windows
 
 ## Outstanding Work
 NOTE: migsql is still under development, in need of a nice 'Green Refactor'.
@@ -16,7 +16,6 @@ Still to be done:
   - Configuration file to override defaults (such as ./db location)
   - Apply migrations in a transactional manner, rolling back all migrations part of that batch on failure
   - Some sad-path tests + fixes
-  - Cygwin support for windows developers
 
 ## Requirements
 You'll need the freedts package + development libraries, so (depending on your distro):
