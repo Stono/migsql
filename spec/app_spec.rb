@@ -14,7 +14,7 @@ describe 'MigSql' do
   end
 
   it '#handle_init Should not allow init if current dir is already initted' do
-    FileUtils.mkdir_p './db'    
+    FileUtils.mkdir_p './db'
     result = capture_stdout { @app.handle_argv(['init']) }
     expect(result).to include('Error: the ./db directory already exists')
   end
@@ -26,7 +26,7 @@ describe 'MigSql' do
   end
 
   it '#handle_create_migration Should create a migration with the default server' do
-    capture_stdout { @app.handle_argv(['init']) } 
+    capture_stdout { @app.handle_argv(['init']) }
     result = capture_stdout { @app.handle_argv(['create-migration', 'initial']) }
     expect(result).to include('Up: ') && include('Down: ')
   end
@@ -69,4 +69,3 @@ describe 'MigSql' do
   end
 
 end
-

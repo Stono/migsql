@@ -1,4 +1,3 @@
-require 'rake'
 require 'fileutils'
 require 'yaml'
 require 'tiny_tds'
@@ -6,11 +5,11 @@ require 'colorize'
 require_relative 'sqlserver'
 
 class Migration
-  def initialize(path) 
+  def initialize(path)
     @path = path
     @root = File.dirname(@path)
     @servers = Hash.new
-  end  
+  end
 
   def create_server(name, address, database, username, password)
      @servers[name] = SqlServer.new name, address, database, username, password
@@ -30,12 +29,12 @@ class Migration
   end
 
   def load
-    if File.file?(@path) 
+    if File.file?(@path)
       @servers = YAML.load_file(@path)
     end
   end
 
-  def count_servers 
+  def count_servers
     @servers.length
   end
 
@@ -47,7 +46,7 @@ class Migration
       down           = "#{server_root}/#{migration_name}_down.sql"
       FileUtils::mkdir_p server_root
       FileUtils::touch up
-      FileUtils::touch down 
+      FileUtils::touch down
 
       puts "Migration '#{migration_name}' created.".green
       puts "Up:   #{up}".white
@@ -71,7 +70,7 @@ class Migration
   
     from_i = /([0-9]+)_?.*/.match(from).captures[0]
 
-    if to_i > from_i 
+    if to_i > from_i
       plan = get_up_plan server_name, to_i, from_i
     elsif to_i < from_i
       plan = get_down_plan server_name, to_i, from_i
@@ -84,7 +83,7 @@ class Migration
   def get_up_plan(server_name, to, from)
     plan = Array.new
     server_root = "#{@root}/#{server_name}"
-    Dir["#{server_root}/*_up.sql"].sort.each {|migration| 
+    Dir["#{server_root}/*_up.sql"].sort.each {|migration|
       current_item = /([0-9]+)_?.*/.match(migration).captures[0]
       if current_item > from && current_item <= to
         plan.push(migration)
@@ -96,7 +95,7 @@ class Migration
   def get_down_plan(server_name, to, from)
     plan = Array.new
     server_root = "#{@root}/#{server_name}"
-    Dir["#{server_root}/*_down.sql"].sort.reverse.each {|migration| 
+    Dir["#{server_root}/*_down.sql"].sort.reverse.each {|migration|
       current_item = /([0-9]+)_?.*/.match(migration).captures[0]
       if current_item > to && current_item <= from
         plan.push(migration)
@@ -106,7 +105,7 @@ class Migration
   end
 
   def get_migration_by_name(server_name, name)
-    server_root = "#{@root}/#{server_name}"  
+    server_root = "#{@root}/#{server_name}"
     migration = Dir["#{server_root}/*#{name}_up.sql"][0]
     if !migration.nil?
       migration = /([0-9]+_.*)(_up|_down)\.sql/.match(migration).captures[0]
@@ -116,7 +115,7 @@ class Migration
 
   def apply_migration_plan(server_name, migration_plan, final_state)
     puts "Applying migration to: #{server_name}".yellow
-    migration_plan.each {|migration| 
+    migration_plan.each {|migration|
       apply_migration server_name, migration
     }
     server = get_server(server_name)
@@ -131,10 +130,8 @@ class Migration
     server.apply_migration(migration)
   end
  
-  def get_migration_status(server_name) 
+  def get_migration_status(server_name)
     get_server(server_name).get_migration_status
   end
 
 end
-
-
