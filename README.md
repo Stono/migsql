@@ -1,17 +1,20 @@
 # migsql 
 migsql is a simple, lightweight up/down sql migration manager.
 Features:
-  - Up and down migration to targeted versions
-  - Multiple different database configurations in the same project
+  - Store migrations with unix time stamps, to ensure they're applied sequentially, even if multiple people are working on the same project.
+  - Enable both up and down migrations.
+  - Store the "state" of the database (ie its current migration) in a migration table on the server itself.
+  - Support multiple database confgurations per project.
+  - Be a globally accessible binary executable, installed via gem for ease of use.
+  - Currently only supports linux due to the freetds requirement.
 
-## Important
-NOTE: Still under development, in need of a nice 'Green Refactor'
+## Outstanding Work
+NOTE: migsql is still under development, in need of a nice 'Green Refactor'.
 Still to be done:
   - Configuration file to override defaults (such as ./db location)
-  - Some not-happy-path tests + fixes
-
-## Background
-I wanted the development team, and CI environment to be able to point to a single point, and that single point would serve up internal modules, as well as traversing external registries if required via the relevant proxy and returning the result, and caching those results where possible.
+  - Apply migrations in a transactional manner, rolling back all migrations part of that batch on failure
+  - Some sad-path tests + fixes
+  - Cygwin support for windows developers
 
 ## Requirements
 You'll need the freedts package + development libraries, so (depending on your distro):
@@ -45,7 +48,6 @@ migsql create-migration <friendly name> <dbname>
 migsql migrate <dbname>
 migsql migrate <dbname> to <friendlyname>
 ```
-
 ## Contributing
 This project has been developed using Test Driven Development, with rspec.
 Everything is configured to run automatically with Guard.
