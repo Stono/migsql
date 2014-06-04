@@ -1,0 +1,17 @@
+AllCops:
+  Exclude:
+    - rakefile.rb
+    - /**/*.gemspec
+    - pkg/**/*
+Style/AccessorMethodName:
+  Enabled: false
+Style/HashSyntax: 
+  Enabled: false
+Style/MethodLength:
+  Max: 20 
+Style/LineLength:
+  Max: 100
+Style/CyclomaticComplexity:
+  Max: 7
+Documentation:
+  Enabled: false
