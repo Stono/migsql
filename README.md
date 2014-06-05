@@ -74,6 +74,7 @@ In summary:
   - Submit a pull request to me
 
 ## Release History
+  - 1.0.5 Refactors and code improvements
   - 1.0.4 Updates to gemspec
   - 1.0.3 Readme updates
   - 1.0.2 Small bug fixes
