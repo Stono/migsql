@@ -5,7 +5,7 @@ require 'tiny_tds'
 require 'colorize'
 
 class SqlServer
-  def initialize(name, address, database, username, password) 
+  def initialize(name, address, database, username, password)
     @name     = name
     @address  = address
     @database = database
@@ -13,21 +13,7 @@ class SqlServer
     @password = password
   end
 
-  def name 
-    return @name
-  end
-  def address
-    return @address
-  end
-  def database
-    return @database
-  end
-  def username 
-    return @username
-  end
-  def password
-    return @password
-  end
+  attr_reader :name, :address, :database, :username, :password
 
   def get_sql(name)
     File.read("#{File.dirname(__FILE__)}/../../sql/#{name}.sql")
@@ -35,8 +21,8 @@ class SqlServer
 
   def get_client
     TinyTds::Client.new(
-      :username => username, 
-      :password => password, 
+      :username => username,
+      :password => password,
       :host     => address,
       :database => database
     )
@@ -45,37 +31,32 @@ class SqlServer
   def get_migration_status
     client = get_client
     begin
-      results = client.execute("SELECT migration FROM _migration")
+      results = client.execute('SELECT migration FROM _migration')
       result = results.each(:first => true)[0]['migration']
-      if result.length == 0 
-        return '0'
-      else
-        return result
-      end
-    rescue Exception => ex
-      return '0'
+      result = '0' if result.length == 0
+    rescue
+      result = '0'
     end
+    result
   end
- 
+
   def set_migration_status(to)
     client = get_client
     sql = [
       get_sql('create_migration_table'),
       "UPDATE _migration SET migration = '#{to}'"
-    ].join(' ')  
+    ].join(' ')
     client.execute(sql).each
   end
- 
+
   def remove_migration
     client = get_client
     client.execute('DROP TABLE _migration')
   end
 
-  def apply_migration(path) 
+  def apply_migration(path)
     client = get_client
     sql    = File.read(path)
     client.execute(sql)
   end
-
 end
-

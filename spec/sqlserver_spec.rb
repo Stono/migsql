@@ -5,9 +5,15 @@ describe 'SqlServer' do
   before :all do
     @test_server = get_test_server
   end
- 
+
   before :each do
-    @server = SqlServer.new @test_server['name'], @test_server['address'], @test_server['database'], @test_server['username'], @test_server['password']
+    @server = SqlServer.new(
+      @test_server['name'],
+      @test_server['address'],
+      @test_server['database'],
+      @test_server['username'],
+      @test_server['password']
+    )
     @server.remove_migration
   end
 
@@ -25,4 +31,3 @@ describe 'SqlServer' do
   end
 
 end
-

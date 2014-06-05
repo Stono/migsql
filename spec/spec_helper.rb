@@ -11,12 +11,12 @@ RSpec.configure do |config|
 
   original_stderr = $stderr
   original_stdout = $stdout
-  config.before(:each) do 
+  config.before(:each) do
     # Redirect stderr and stdout
     $stderr = File.new('/tmp/rspec-err', 'w')
     $stdout = File.new('/tmp/rspec-out', 'w')
   end
-  config.after(:each) do 
+  config.after(:each) do
     $stderr = original_stderr
     $stdout = original_stdout
   end
@@ -24,12 +24,12 @@ end
 
 # Please update this to your local test configuration
 def get_test_server
- return {
-   'name'    => 'test_db',
-   'address' => '127.0.0.1', 
-   'database'=> 'db_name',
-   'username'=> 'user',
-   'password'=> 'password'
+  {
+    'name'     => 'test_db',
+    'address'  => '172.19.108.5',
+    'database' => 'MigrationTest',
+    'username' => 'jenkins',
+    'password' => 'QDfVkyVn8tk6'
   }
 end
 
@@ -41,5 +41,3 @@ def capture_stdout
 ensure
   $stdout = STDOUT
 end
-
-
