@@ -48,12 +48,17 @@ Or to migrate to a specific version (up, or down):
 ```
 migsql migrate to <friendlyname>
 ```
+If you want to forcefully apply a particular up/down script (for testing purposes):
+```
+migsql apply <friendlyname>
+```
 ## Multiple Databases
 If your config.yml contains multiple databases, you will need to specify which db you're targeting, like so:
 ```
 migsql create-migration <friendly name> <dbname>
 migsql migrate <dbname>
 migsql migrate <dbname> to <friendlyname>
+migsql apply <friendlyname> to <dbname>
 ```
 ## Contributing
 This project has been developed using Test Driven Development, with rspec.
@@ -74,6 +79,7 @@ In summary:
   - Submit a pull request to me
 
 ## Release History
+  - 1.0.6 Introduced apply
   - 1.0.5 Refactors and code improvements
   - 1.0.4 Updates to gemspec
   - 1.0.3 Readme updates

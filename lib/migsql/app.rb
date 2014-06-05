@@ -22,10 +22,23 @@ class MigSql
     end
   end
 
+  def enforce_arg(value, name)
+    if value.nil?
+      puts "Error: You must specify a value for #{name}".red
+      return true
+    end
+    false
+  end
+
   def handle_apply(argv)
-    migration_name = argv[1]
-    migration_server = get_migration_server(argv[2])
-    @migration.apply_migration(migration_server, migration_name) unless migration_server.nil?
+    return if enforce_arg(argv[1], 'migration name')
+    return if enforce_arg(argv[2], 'up/down')
+    migration_server = get_migration_server(argv[4])
+    migration_name = get_migration_target(migration_server, argv[1])
+    return if migration_name.nil?
+    migration_name = "#{migration_name}_#{argv[2]}.sql"
+    @migration.apply_migration(migration_server, migration_name)\
+      unless migration_server.nil? || migration_name.nil?
   end
 
   def handle_init
@@ -59,17 +72,13 @@ class MigSql
       migration_server = get_migration_server(argv[1])
       migration_target = argv[3]
     end
-    o_target = migration_target
     return if migration_server.nil?
     migration_target = get_migration_target(migration_server, migration_target)
-    if !migration_target.nil?
-      from = @migration.get_migration_status(migration_server)
-      plan = calculate_migration_plan(migration_server, migration_target, from)
-      @migration.apply_migration_plan(migration_server, plan, migration_target)\
-        unless plan.nil?
-    else
-      puts "Error:  No migration found with name: #{o_target}".red
-    end
+    return if migration_target.nil?
+    from = @migration.get_migration_status(migration_server)
+    plan = calculate_migration_plan(migration_server, migration_target, from)
+    @migration.apply_migration_plan(migration_server, plan, migration_target)\
+      unless plan.nil?
   end
 
   def calculate_migration_plan(migration_server, to, from)
@@ -82,10 +91,12 @@ class MigSql
 
   def get_migration_target(migration_server, migration_target)
     if migration_target.nil?
-      @migration.get_latest_migration(migration_server)
+      migration = @migration.get_latest_migration(migration_server)
     else
-      @migration.get_migration_by_name(migration_server, migration_target)
+      migration = @migration.get_migration_by_name(migration_server, migration_target)
+      puts "Error: No migration found with name: #{migration_target}".red if migration.nil?
     end
+    migration
   end
 
   def get_migration_server(server_name)

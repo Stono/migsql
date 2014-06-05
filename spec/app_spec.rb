@@ -69,16 +69,34 @@ describe 'MigSql' do
     expect(result).to include('Error: Your config has multiple servers')
   end
 
-  it '#apply Should allow you to apply a specific migration' do
+  it '#handle_apply Should allow you to apply a specific migration' do
     mock_migration = instance_double('Migration')
     allow(mock_migration).to receive(:get_migration_by_name).and_return('123456_migration_up.sql')
     allow(mock_migration).to receive(:count_servers).and_return(1)
     allow(mock_migration).to receive(:get_first_server_name).and_return('test-server')
     allow(mock_migration).to receive(:load)
     allow(mock_migration).to receive(:apply_migration) { puts 'Migration \'migration\' applied.' }
-    app = MigSql.new(mock_migration)
-    result = capture_stdout { app.handle_argv(%w(apply migration)) }
+    stubbed_app = MigSql.new(mock_migration)
+    result = capture_stdout { stubbed_app.handle_argv(%w(apply migration up)) }
     expect(result).to include('Migration \'migration\' applied.')
+  end
+
+  it '#handle_apply Should enforce a migration name' do
+    @app.handle_argv(%w(init))
+    result = capture_stdout { @app.handle_argv(%w(apply)) }
+    expect(result).to include('Error: You must specify a value for migration name')
+  end
+
+  it '#handle_apply Should enforce up/down' do
+    @app.handle_argv(%w(init))
+    result = capture_stdout { @app.handle_argv(%w(apply migration)) }
+    expect(result).to include('Error: You must specify a value for up/down')
+  end
+
+  it '#handle_apply Should throw an error if the migration name doesnt exist' do
+    @app.handle_argv(%w(init))
+    result = capture_stdout { @app.handle_argv(%w(apply unknownmigration up)) }
+    expect(result).to include('Error: No migration found with name: unknownmigration')
   end
 
 end
