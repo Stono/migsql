@@ -8,6 +8,7 @@ group :development do
   gem 'geminabox'
   gem 'geminabox-rake'
   gem 'rspec'
+  gem 'rspec-mocks'
   gem 'guard'
   gem 'guard-rubocop'
 end

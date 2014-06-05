@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require_relative '../lib/migsql'
-@app = MigSql.new
+@app = MigSql.new(nil)
 @app.handle_argv(ARGV)
