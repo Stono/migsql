@@ -1,7 +1,7 @@
 require 'colorize'
 class MigSql
-  def initialize
-    @migration = Migration.new './db/config.yml'
+  def initialize(migration)
+    @migration = migration || Migration.new('./db/config.yml')
     @migration.load
   end
 
@@ -16,8 +16,16 @@ class MigSql
         handle_create_migration argv
       when 'migrate'
         handle_migrate argv
+      when 'apply'
+        handle_apply argv
       end
     end
+  end
+
+  def handle_apply(argv)
+    migration_name = argv[1]
+    migration_server = get_migration_server(argv[2])
+    @migration.apply_migration(migration_server, migration_name) unless migration_server.nil?
   end
 
   def handle_init
