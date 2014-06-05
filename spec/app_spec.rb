@@ -15,34 +15,35 @@ describe 'MigSql' do
 
   it '#handle_init Should not allow init if current dir is already initted' do
     FileUtils.mkdir_p './db'
-    result = capture_stdout { @app.handle_argv(['init']) }
+    result = capture_stdout { @app.handle_argv(%w(init)) }
     expect(result).to include('Error: the ./db directory already exists')
   end
 
   it '#handle_init Should init the default template' do
-    result = capture_stdout { @app.handle_argv(['init']) }
+    result = capture_stdout { @app.handle_argv(%w(init)) }
     expect(File.file?('./db/config.yml')).to eq(true)
     expect(result).to include('Default configuration created in ./db/config.yml')
   end
 
   it '#handle_create_migration Should create a migration with the default server' do
     capture_stdout { @app.handle_argv(['init']) }
-    result = capture_stdout { @app.handle_argv(['create-migration', 'initial']) }
+    result = capture_stdout { @app.handle_argv(%w(create-migration initial)) }
     expect(result).to include('Up: ') && include('Down: ')
   end
- 
+
   it '#handle_create_migration Should return an error if no config found' do
-    result = capture_stdout { @app.handle_argv(['create-migration', 'initial']) }
+    result = capture_stdout { @app.handle_argv(%w(create-migration initial)) }
     expect(result).to include('Error: Please run migsql init first')
   end
- 
+
   it '#handle_create_migration should return an error if the specified server doesnt exist' do
     capture_stdout { @app.handle_argv(['init']) }
-    result = capture_stdout { @app.handle_argv(['create-migration', 'initial', 'unknownserver']) }
+    result = capture_stdout { @app.handle_argv(%w(create-migration initial unknownserver)) }
     expect(result).to include('Error: No server named unknownserver found in your config')
   end
 
-  it '#handle_create_migration Should return an error if multiple servers defined but one not passed' do
+  it '#handle_create_migration Should return an error if\
+      multiple servers defined but one not passed' do
     capture_stdout do
       @app.handle_argv(['init'])
       tmp_migration = Migration.new './db/config.yml'
@@ -51,10 +52,10 @@ describe 'MigSql' do
       tmp_migration.save
       @app = MigSql.new
     end
-    result = capture_stdout { @app.handle_argv(['create-migration', 'initial']) }
+    result = capture_stdout { @app.handle_argv(%w(create-migration initial)) }
     expect(result).to include('Error: Your config has multiple servers')
   end
-  
+
   it '#handle_migrate Should return an error if multiple servers defined but one not passed' do
     capture_stdout do
       @app.handle_argv(['init'])

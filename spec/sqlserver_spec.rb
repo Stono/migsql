@@ -5,7 +5,7 @@ describe 'SqlServer' do
   before :all do
     @test_server = get_test_server
   end
- 
+
   before :each do
     @server = SqlServer.new(
       @test_server['name'],
@@ -31,4 +31,3 @@ describe 'SqlServer' do
   end
 
 end
-

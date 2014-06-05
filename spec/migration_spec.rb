@@ -73,14 +73,14 @@ describe 'Migration' do
     expect(File.directory?("./db/#{@test_server['name']}")).to eq(true)
     expect(Dir["./db/#{@test_server['name']}/*.sql"].length).to eq(2)
   end
- 
+
   it '#create_migration should force unique names' do
     create_example_server
     @migration.create_migration @test_server['name'], 'test_migration'
     result = capture_stdout { @migration.create_migration @test_server['name'], 'test_migration' }
     expect(result).to include('Error: migration name already in use')
   end
-    
+
   it '#get_latest_migration should return the latest migration' do
     create_example_server
     @migration.create_migration @test_server['name'], 'test_migration'
@@ -89,7 +89,7 @@ describe 'Migration' do
     result = @migration.get_latest_migration @test_server['name']
     expect(result).to include('test_migration2')
   end
- 
+
   it '#get_migration_plan should return all migrations when new db' do
     create_example_server
     @migration.create_migration @test_server['name'], 'test_migration'
