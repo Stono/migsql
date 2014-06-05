@@ -1,22 +1,28 @@
 # migsql 
 migsql is a simple, lightweight up/down sql migration manager.
-Features:
-  - Up and down migration to targeted versions
-  - Multiple different database configurations in the same project
 
-## Important
-NOTE: Still under development, in need of a nice 'Green Refactor'
+Features:
+  - Store migrations with unix time stamps, to ensure they're applied sequentially, even if multiple people are working on the same project.
+  - Enable both up and down migrations.
+  - Store the "state" of the database (ie its current migration) in a migration table on the server itself.
+  - Support multiple database confgurations per project.
+  - Be a globally accessible binary executable, installed via gem for ease of use.
+  - Supports both linux and windows
+
+## Outstanding Work
+NOTE: migsql is still under development, in need of a nice 'Green Refactor'.
+
 Still to be done:
   - Configuration file to override defaults (such as ./db location)
-  - Some not-happy-path tests + fixes
-
-## Background
-I wanted the development team, and CI environment to be able to point to a single point, and that single point would serve up internal modules, as well as traversing external registries if required via the relevant proxy and returning the result, and caching those results where possible.
+  - Apply migrations in a transactional manner, rolling back all migrations part of that batch on failure
+  - Some sad-path tests + fixes
 
 ## Requirements
-You'll need the freedts package + development libraries, so (depending on your distro):
+Linux: You'll need the freedts package + development libraries, so (depending on your distro):
   - yum install freedts
   - yum install freedts-devel
+
+Windows: Nothing to do, tiny_tds is precompiled.
 
 ## Getting Started
 ```
@@ -27,16 +33,20 @@ From there, create an initial config with:
 migsql init
 ```
 This will create a ./db/config.yml - you need to edit this with your database parameters
+
 To create a migration do:
 ```
 migsql create-migration <friendly name>
 ```
 You'll then get up/down scripts for this migration created.  Simply stick your SQL in them.
-To execute a migration do:
+
+To execute a migration to the most recent one available:
 ```
-migsql migrate (this will migrate the database in your config, to the latest available migration)
-or
-migsql migrate to <friendlyname> (this will migrate the database in your config, to the specified migration)
+migsql migrate
+```
+Or to migrate to a specific version (up, or down):
+```
+migsql migrate to <friendlyname>
 ```
 ## Multiple Databases
 If your config.yml contains multiple databases, you will need to specify which db you're targeting, like so:
@@ -45,7 +55,6 @@ migsql create-migration <friendly name> <dbname>
 migsql migrate <dbname>
 migsql migrate <dbname> to <friendlyname>
 ```
-
 ## Contributing
 This project has been developed using Test Driven Development, with rspec.
 Everything is configured to run automatically with Guard.
@@ -65,6 +74,7 @@ In summary:
   - Submit a pull request to me
 
 ## Release History
+  - 1.0.5 Refactors and code improvements
   - 1.0.4 Updates to gemspec
   - 1.0.3 Readme updates
   - 1.0.2 Small bug fixes
