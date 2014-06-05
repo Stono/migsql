@@ -75,10 +75,14 @@ class Migration
     plan
   end
 
+  def get_migration_files(server_name, direction)
+    server_root = "#{@root}/#{server_name}"
+    Dir["#{server_root}/*_#{direction}.sql"].sort
+  end
+
   def get_up_plan(server_name, to, from)
     plan = []
-    server_root = "#{@root}/#{server_name}"
-    Dir["#{server_root}/*_up.sql"].sort.each do |migration|
+    get_migration_files(server_name, 'up').each do |migration|
       current_item = /([0-9]+)_?.*/.match(migration).captures[0]
       plan.push(migration) if current_item > from && current_item <= to
     end
@@ -87,8 +91,7 @@ class Migration
 
   def get_down_plan(server_name, to, from)
     plan = []
-    server_root = "#{@root}/#{server_name}"
-    Dir["#{server_root}/*_down.sql"].sort.reverse.each do |migration|
+    get_migration_files(server_name, 'down').reverse.each do |migration|
       current_item = /([0-9]+)_?.*/.match(migration).captures[0]
       plan.push(migration) if current_item > to && current_item <= from
     end
