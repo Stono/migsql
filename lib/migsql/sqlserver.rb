@@ -1,11 +1,11 @@
 require 'rake'
 require 'fileutils'
 require 'yaml'
-require 'tiny_tds'
 require 'colorize'
 
 class SqlServer
   def initialize(name, address, database, username, password)
+    require 'tiny_tds'
     @name     = name
     @address  = address
     @database = database
