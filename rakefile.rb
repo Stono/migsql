@@ -22,7 +22,6 @@ spec = Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.license      = 'MIT'
   s.executables  = %w(migsql)
-  s.add_runtime_dependency 'tiny_tds'
   s.add_runtime_dependency 'colorize'
 end
  

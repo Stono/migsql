@@ -7,7 +7,7 @@ class MigSql
 
   def handle_argv(argv)
     if argv.length == 0
-      puts 'Usage: migsql {init|create-migration|migrate}'.white
+      puts 'Usage: migsql {init|create-migration|migrate|apply}'.white
     else
       case argv[0]
       when 'init'

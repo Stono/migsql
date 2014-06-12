@@ -22,7 +22,8 @@ Linux: You'll need the freedts package + development libraries, so (depending on
   - yum install freedts
   - yum install freedts-devel
 
-Windows: Nothing to do, tiny_tds is precompiled.
+I have also pulled out the tiny_tds requirement (because of Cygwin).
+As a result - if you plan to apply the migrations from your machine, you'll need to do `gem install tiny_tds`
 
 ## Getting Started
 ```
@@ -79,6 +80,7 @@ In summary:
   - Submit a pull request to me
 
 ## Release History
+  - 1.1.0 Moved TDS requirement to be used when required
   - 1.0.6 Introduced apply
   - 1.0.5 Refactors and code improvements
   - 1.0.4 Updates to gemspec

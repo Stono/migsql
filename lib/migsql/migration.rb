@@ -1,6 +1,5 @@
 require 'fileutils'
 require 'yaml'
-require 'tiny_tds'
 require 'colorize'
 require_relative 'sqlserver'
 
