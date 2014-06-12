@@ -5,7 +5,6 @@ require 'colorize'
 
 class SqlServer
   def initialize(name, address, database, username, password)
-    require 'tiny_tds'
     @name     = name
     @address  = address
     @database = database
@@ -20,6 +19,7 @@ class SqlServer
   end
 
   def get_client
+    require 'tiny_tds'
     TinyTds::Client.new(
       :username => username,
       :password => password,
