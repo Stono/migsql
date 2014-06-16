@@ -61,6 +61,7 @@ class Migration
   end
 
   def get_migration_plan(server_name, to, from)
+    puts "Creating migration plan for #{server_name} from #{from} to #{to}"
     to ||= get_latest_migration(server_name)
     to_i  = /([0-9]+)_?.*/.match(to).captures[0]
     from_i = /([0-9]+)_?.*/.match(from).captures[0]
