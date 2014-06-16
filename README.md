@@ -80,6 +80,8 @@ In summary:
   - Submit a pull request to me
 
 ## Release History
+  - 1.1.3 More informative feedback
+  - 1.1.2 Enabled connection override by environment variables
   - 1.1.0 Moved TDS requirement to be used when required
   - 1.0.6 Introduced apply
   - 1.0.5 Refactors and code improvements
