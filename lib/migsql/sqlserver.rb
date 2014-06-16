@@ -18,6 +18,18 @@ class SqlServer
     File.read("#{File.dirname(__FILE__)}/../../sql/#{name}.sql")
   end
 
+  def username
+    ENV['migsql_username'] || @username
+  end
+
+  def password
+    ENV['migsql_password'] || @password
+  end
+
+  def address
+    ENV['migsql_address'] || @address
+  end
+
   def get_client
     require 'tiny_tds'
     TinyTds::Client.new(
