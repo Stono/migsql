@@ -36,7 +36,7 @@ class MigSql
     migration_server = get_migration_server(argv[4])
     migration_name = get_migration_target(migration_server, argv[1])
     return if migration_name.nil?
-    migration_name = "#{migration_name}_#{argv[2]}.sql"
+    migration_name = "db/#{migration_server}/#{migration_name}_#{argv[2]}.sql"
     @migration.apply_migration(migration_server, migration_name)\
       unless migration_server.nil? || migration_name.nil?
   end

@@ -69,6 +69,6 @@ class SqlServer
   def apply_migration(path)
     client = get_client
     sql    = File.read(path)
-    client.execute(sql)
+    client.execute(sql).each
   end
 end
