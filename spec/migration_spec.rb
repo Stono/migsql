@@ -146,10 +146,10 @@ describe 'Migration' do
     sleep 0.1
     # Update these migrations to actually do something...
     first_migration = @migration.get_migration_by_name @test_server['name'], 'test_migration'
-    first_migration_path = "./db/#{@test_server['name']}/#{first_migration}"
+    first_migration_path = "./db/#{@test_server['name']}/#{first_migration}_up.sql"
 
     second_migration = @migration.get_migration_by_name @test_server['name'], 'test_migration2'
-    second_migration_path = "./db/#{@test_server['name']}/#{second_migration}"
+    second_migration_path = "./db/#{@test_server['name']}/#{second_migration}_up.sql"
 
     tmp_server = @migration.get_server(@test_server['name'])
     sql1 = tmp_server.get_sql('create_test_table')
@@ -161,6 +161,44 @@ describe 'Migration' do
     @migration.apply_migration_plan @test_server['name'], migration_plan, second_migration
 
     expect(second_migration).to include(@migration.get_migration_status(@test_server['name']))
+  end
+
+  it '#apply_migration_plan should set the migration to be the last sucessful' do
+    create_example_server
+    server = SqlServer.new(
+      @test_server['name'],
+      @test_server['address'],
+      @test_server['database'],
+      @test_server['username'],
+      @test_server['password']
+    )
+    server.remove_migration
+
+    @migration.create_migration @test_server['name'], 'test_migration'
+    sleep 0.1
+    @migration.create_migration @test_server['name'], 'test_migration2'
+    sleep 0.1
+    # Update these migrations to actually do something...
+    first_migration = @migration.get_migration_by_name @test_server['name'], 'test_migration'
+    first_migration_path = "./db/#{@test_server['name']}/#{first_migration}_up.sql"
+
+    second_migration = @migration.get_migration_by_name @test_server['name'], 'test_migration2'
+    second_migration_path = "./db/#{@test_server['name']}/#{second_migration}_up.sql"
+
+    tmp_server = @migration.get_server(@test_server['name'])
+    sql1 = tmp_server.get_sql('create_test_table')
+    sql2 = 'THIS SQL WILL BOMB OUT'
+    File.open(first_migration_path, 'w') { |f| f.write sql1 }
+    File.open(second_migration_path, 'w') { |f| f.write sql2 }
+
+    migration_plan = @migration.get_migration_plan @test_server['name'], nil, '0'
+    begin
+      @migration.apply_migration_plan @test_server['name'], migration_plan, second_migration
+    rescue ArgumentError
+      puts 'SqlServer.rb correctly threw exception'
+    ensure
+      expect(first_migration).to include(@migration.get_migration_status(@test_server['name']))
+    end
   end
 
 end

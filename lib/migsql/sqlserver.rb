@@ -69,6 +69,10 @@ class SqlServer
   def apply_migration(path)
     client = get_client
     sql    = File.read(path)
-    client.execute(sql).each
+    begin
+      client.execute(sql).each
+    rescue
+      raise ArgumentError, "Failed to apply migration from #{path}!"
+    end
   end
 end
