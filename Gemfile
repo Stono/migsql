@@ -10,5 +10,6 @@ group :development do
   gem 'rspec'
   gem 'rspec-mocks'
   gem 'guard'
+  gem 'guard-rspec'
   gem 'guard-rubocop'
 end
