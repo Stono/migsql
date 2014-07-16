@@ -121,6 +121,7 @@ class Migration
     puts " - #{migration_name} #{updown}".white
     server = get_server(server_name)
     server.apply_migration(migration)
+    server.set_migration_status(migration_name) if updown.eql? 'up'
   end
 
   def get_migration_status(server_name)

@@ -160,7 +160,7 @@ describe 'Migration' do
     migration_plan = @migration.get_migration_plan @test_server['name'], nil, '0'
     @migration.apply_migration_plan @test_server['name'], migration_plan, second_migration
 
-    expect(second_migration).to include(@migration.get_migration_status(@test_server['name']))
+    expect(second_migration).to eq(@migration.get_migration_status(@test_server['name']))
   end
 
   it '#apply_migration_plan should set the migration to be the last sucessful' do
@@ -178,6 +178,7 @@ describe 'Migration' do
     sleep 0.1
     @migration.create_migration @test_server['name'], 'test_migration2'
     sleep 0.1
+
     # Update these migrations to actually do something...
     first_migration = @migration.get_migration_by_name @test_server['name'], 'test_migration'
     first_migration_path = "./db/#{@test_server['name']}/#{first_migration}_up.sql"
@@ -197,7 +198,7 @@ describe 'Migration' do
     rescue ArgumentError
       puts 'SqlServer.rb correctly threw exception'
     ensure
-      expect(first_migration).to include(@migration.get_migration_status(@test_server['name']))
+      expect(first_migration).to eq(@migration.get_migration_status(@test_server['name']))
     end
   end
 
