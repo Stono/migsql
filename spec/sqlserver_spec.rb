@@ -17,6 +17,10 @@ describe 'SqlServer' do
     @server.remove_migration
   end
 
+  it '#apply_migration should split on the word GO to enable ssms support' do
+    @server.apply_migration('./sql/statement_containing_go.sql')
+  end
+
   it '#new Should create a new instance of the SqlServer class' do
     expect(@server).to be_an_instance_of SqlServer
   end

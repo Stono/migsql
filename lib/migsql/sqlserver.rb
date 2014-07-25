@@ -66,13 +66,22 @@ class SqlServer
     client.execute('DROP TABLE _migration')
   end
 
+  # This method will parse some SSMS stuff, such as GO
+  def parse_sql(sql)
+    sql.split(/go\n/i)
+  end
+
   def apply_migration(path)
     client = get_client
     sql    = File.read(path)
     begin
-      client.execute(sql).each
-    rescue
-      raise ArgumentError, "Failed to apply migration from #{path}!"
+      sql = parse_sql(sql)
+      sql.each do |statement|
+        client.execute(statement).each
+      end
+    rescue Exception => e
+      puts "Failed to apply migration from #{path}!".red
+      raise e
     end
   end
 end

@@ -17,3 +17,5 @@ Style/CyclomaticComplexity:
   Max: 7
 Documentation:
   Enabled: false
+Lint/RescueException:
+  Enabled: false
