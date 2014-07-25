@@ -80,6 +80,7 @@ In summary:
   - Submit a pull request to me
 
 ## Release History
+  - 1.2.0 Enabled SSMS GO statement support
   - 1.1.5 Graceful failure when going up
   - 1.1.4 Big bug fixes
   - 1.1.3 More informative feedback
